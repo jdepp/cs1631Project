@@ -9,58 +9,60 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
-import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.VoteModel;
-import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.VoterTable;
+import edu.pitt.cs.cs1635.jmd221.votingapp.PollingActivity;
 
-/**
- * Created by jeremydeppen on 2/22/18.
- */
 
+/* Class that handles receiving text votes and sending back a confirmation */
 public class SmsReceiver extends BroadcastReceiver {
-    VoterTable voterTable = new VoterTable();
+    private Listener listener = null;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Bundle intentExtras = intent.getExtras();
+        if(PollingActivity.isInForeground) {
+            Bundle intentExtras = intent.getExtras();
 
-        if (intentExtras != null) {
-            /* Get Messages */
-            Object[] sms = (Object[]) intentExtras.get("pdus");
+            if (intentExtras != null) {
+                /* Get Messages */
+                Object[] sms = (Object[]) intentExtras.get("pdus");
 
-            if(sms != null) {
-                for (int i = 0; i < sms.length; ++i) {
-                /* Parse Each Message */
-                    SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) sms[i]);
+                if (sms != null) {
+                    for (int i = 0; i < sms.length; ++i) {
+                    /* Parse Each Message */
+                        SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) sms[i]);
 
-                    String phone = smsMessage.getOriginatingAddress();
-                    String message = smsMessage.getMessageBody().toString();
+                        String phone = smsMessage.getOriginatingAddress();
+                        String message = smsMessage.getMessageBody().toString();
 
-                    int messageAsInt;
-                    try {
-                        messageAsInt = Integer.parseInt(message);
-                    } catch (NumberFormatException e) {
-                        messageAsInt = 0;
+                        int messageAsInt;
+                        try {
+                            messageAsInt = Integer.parseInt(message);
+                        } catch (NumberFormatException e) {
+                            messageAsInt = 0;
+                        }
+
+                        SmsManager smsManager = SmsManager.getDefault();
+                        if (messageAsInt > 0) {
+                            if (listener != null) {
+                                listener.onTextReceived(phone, message);
+                            }
+                        } else {
+                            String voteAsk = "Could not vote for " + message + " - Not a valid option.";
+                            smsManager.sendTextMessage(phone, null, voteAsk, null, null);
+                        }
+
+                        Toast.makeText(context, phone + ": vote received for " + message, Toast.LENGTH_LONG).show();
                     }
-
-                    if(messageAsInt > 0) {
-                        VoteModel newVoter = new VoteModel(phone, messageAsInt);
-                        voterTable.addVote(newVoter);
-                    }
-
-                    Log.d("NUMBER", phone);
-                    Log.d("MSG", phone);
-
-                    Toast.makeText(context, phone + ": " + message, Toast.LENGTH_LONG).show();
-
-                    String voteAsk = "Vote received for " + message;
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phone, null, voteAsk, null, null);
                 }
             }
         }
     }
 
-    public VoterTable getVoterTable() {
-        return voterTable;
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+        void onTextReceived(String phone, String vote);
     }
 }

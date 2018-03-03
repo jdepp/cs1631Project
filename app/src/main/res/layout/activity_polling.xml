@@ -10,31 +10,34 @@
         android:id="@+id/pollingBeganText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/voters"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="106dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/showVotesButton"
-        app:layout_constraintTop_toBottomOf="@+id/showVotesButton" />
 
     <Button
-        android:id="@+id/showVotesButton"
+        android:id="@+id/stopPolling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:onClick="showVotes"
-        android:text="Show Votes"
+        android:layout_marginBottom="16dp"
+        android:onClick="onStopPolling"
+        android:text="Stop Polling"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tallies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="16dp"
+        android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pollingBeganText" />
 

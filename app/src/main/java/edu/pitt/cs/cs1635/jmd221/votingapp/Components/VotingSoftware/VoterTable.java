@@ -1,26 +1,21 @@
 package edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware;
 
-import java.util.ArrayList;
-
-import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.VoteModel;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jeremydeppen on 2/27/18.
  */
 
 public class VoterTable {
-    public ArrayList<VoteModel> voterTable;
+    public Map<String, String> voterTable;
 
     public VoterTable() {
-        voterTable = new ArrayList<>();
+        voterTable = new HashMap<>();
     }
 
-    public void addVote(VoteModel vote) {
-        if(!voterTable.contains(vote))
-            voterTable.add(vote);
+    public void addVoter(String phoneNumber, String vote) {
+        voterTable.put(phoneNumber, vote);
     }
 
-    public ArrayList<VoteModel> getVoterTable() {
-        return voterTable;
-    }
 }

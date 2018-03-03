@@ -1,24 +1,23 @@
 package edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware;
 
-import java.util.ArrayList;
+import android.content.Intent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jeremydeppen on 2/27/18.
  */
 
 public class TallyTable {
-    public ArrayList<TallyModel> tallyTable;
+    public Map<Integer, Integer> tallyTable;
 
     public TallyTable() {
-        tallyTable = new ArrayList<>();
+        tallyTable = new HashMap<>();
     }
 
-    public void addTally(TallyModel tally) {
-        tallyTable.add(tally);
-    }
-
-    public ArrayList<TallyModel> getTallyTable() {
-        return tallyTable;
+    public void addTally(Integer id, Integer numOfVotes) {
+        tallyTable.put(id, numOfVotes);
     }
 
 }
