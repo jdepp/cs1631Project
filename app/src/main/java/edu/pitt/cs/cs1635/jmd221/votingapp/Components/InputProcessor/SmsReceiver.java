@@ -6,28 +6,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-import android.util.Log;
-import android.widget.Toast;
 
 import edu.pitt.cs.cs1635.jmd221.votingapp.PollingActivity;
 
 
-/* Class that handles receiving text votes and sending back a confirmation */
+/* Class that handles receiving text votes and triggers the onTextReceived() method in Polling Activity */
 public class SmsReceiver extends BroadcastReceiver {
     private Listener listener = null;
 
+    // Triggered when an SMS is received
     @Override
     public void onReceive(Context context, Intent intent) {
         if(PollingActivity.isInForeground) {
             Bundle intentExtras = intent.getExtras();
 
             if (intentExtras != null) {
-                /* Get Messages */
+                // Get Messages
                 Object[] sms = (Object[]) intentExtras.get("pdus");
 
                 if (sms != null) {
                     for (int i = 0; i < sms.length; ++i) {
-                    /* Parse Each Message */
+                        // Parse Each Message
                         SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) sms[i]);
 
                         String phone = smsMessage.getOriginatingAddress();
@@ -41,28 +40,29 @@ public class SmsReceiver extends BroadcastReceiver {
                         }
 
                         SmsManager smsManager = SmsManager.getDefault();
-                        if (messageAsInt > 0) {
-                            if (listener != null) {
-                                listener.onTextReceived(phone, message);
-                            }
-                        } else {
-                            String voteAsk = "Could not vote for " + message + " - Not a valid option.";
-                            smsManager.sendTextMessage(phone, null, voteAsk, null, null);
-                        }
+                        boolean validMessage;
+                        if (messageAsInt > 0)
+                            validMessage = true;
+                        else
+                            validMessage = false;
 
-                        Toast.makeText(context, phone + ": vote received for " + message, Toast.LENGTH_LONG).show();
+                        // Trigger onTextReceived() method in Polling Activity sending phone number, message, and if it's a valid msg
+                        if (listener != null) {
+                            listener.onTextReceived(phone, message, validMessage);
+                        }
                     }
                 }
             }
         }
     }
 
-
+    // Activates the SmsListener - this method is called in Polling Activity
     public void setListener(Listener listener) {
         this.listener = listener;
     }
 
+    // Interface that forces Polling Activity to implement method onTextReceived()
     public interface Listener {
-        void onTextReceived(String phone, String vote);
+        void onTextReceived(String phone, String vote, boolean validMessage);
     }
 }
