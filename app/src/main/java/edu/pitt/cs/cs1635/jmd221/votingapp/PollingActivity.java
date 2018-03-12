@@ -82,6 +82,8 @@ public class PollingActivity extends AppCompatActivity implements Listener {
         pollingStopped.setText("Results");
         Button stopPollingButton = (Button)findViewById(R.id.stopPollingButton);
         stopPollingButton.setEnabled(false);
+
+        votingSoftware.destroyVoterTable();
     }
 
     // Displays the current tallies in the TallyTable in descending order

@@ -81,6 +81,10 @@ public class VotingSoftware {
         }
     }
 
+    public void destroyVoterTable() {
+        voterTable.getHashMap().clear();
+    }
+
     // Returns the TallyTable (a HashMap)
     public Map<Integer, Integer> getTallyTable() {
         return tallyTable.getHashMap();
