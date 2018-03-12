@@ -6,32 +6,49 @@
     android:layout_height="match_parent"
     tools:context="edu.pitt.cs.cs1635.jmd221.votingapp.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/enterPasswordEditText"
+        <TextView
+            android:id="@+id/loginHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Password"
-            android:inputType="textPassword"/>
-        <Button
-            android:id="@+id/enterPasswordButton"
+            android:text="Login"
+            android:layout_margin="30dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:id="@+id/getPasswordLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start Polling"
-            android:onClick="onStartPolling"/>
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="150dp">
+
+            <EditText
+                android:id="@+id/enterPasswordEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Enter Password"
+                android:inputType="textPassword"/>
+            <Button
+                android:id="@+id/enterPasswordButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:onClick="onGetCandidates"/>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/wrongPasswordText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text=""/>
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center"
+            android:layout_below="@+id/getPasswordLinearLayout"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

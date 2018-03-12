@@ -6,39 +6,59 @@
     android:layout_height="match_parent"
     tools:context="edu.pitt.cs.cs1635.jmd221.votingapp.PollingActivity">
 
-    <TextView
-        android:id="@+id/pollingBeganText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:text=""
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/stopPolling"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:onClick="onStopPolling"
-        android:text="Stop Polling"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="30dp">
 
-    <TextView
-        android:id="@+id/tallies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="132dp"
-        android:layout_marginTop="16dp"
-        android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pollingBeganText" />
+        <TextView
+            android:id="@+id/pollingStartedText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Polling Started"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:gravity="center"/>
+
+        <ScrollView
+            android:id="@+id/displayCandidatesLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:layout_below="@+id/pollingStartedText"
+            android:layout_above="@+id/button">
+
+            <TextView
+                android:id="@+id/tallies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/button"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/stopPollingButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stop Polling"
+                android:onClick="onStopPolling"
+                android:gravity="center"
+                android:layout_weight="100"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

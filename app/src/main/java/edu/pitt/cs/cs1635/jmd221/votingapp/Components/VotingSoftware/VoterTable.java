@@ -19,10 +19,8 @@ public class VoterTable {
 
     // Checks if the voter is already in the voter table
     public boolean isInVoterTable(String phoneNumber) {
-        if(hashMap.containsKey(phoneNumber))
-            return true;
-        else
-            return false;
+        if(hashMap.containsKey(phoneNumber))  return true;
+        else  return false;
     }
 
     // Returns the HashMap

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.pitt.cs.cs1635.jmd221.votingapp.AddCandidatesActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="30dp">
+
+        <TextView
+            android:id="@+id/addCandidateHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Candidates"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:gravity="center"/>
+
+        <RelativeLayout
+            android:id="@+id/addCandidateLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/addCandidateHeading">
+
+            <EditText
+                android:id="@+id/enterCandidateName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Candidate Name"
+                android:maxLines="1"
+                android:inputType="textCapWords|textNoSuggestions"
+                android:maxWidth="300dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/enterCandidateName">
+
+                <EditText
+                    android:id="@+id/enterCandidateID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:hint="Candidate ID"
+                    android:inputType="number"/>
+
+                <Button
+                    android:id="@+id/addCandidateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Candidate"
+                    android:onClick="onAddCandidate"
+                    android:layout_alignParentRight="true"/>
+
+             </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:id="@+id/displayCandidatesLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:layout_below="@+id/addCandidateLayout"
+            android:layout_above="@+id/button">
+
+            <TextView
+                android:id="@+id/displayCandidatesTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/button"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/startPollingButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Polling"
+                android:onClick="onStartPolling"
+                android:gravity="center"
+                android:layout_weight="100"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

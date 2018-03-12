@@ -2,6 +2,8 @@ package edu.pitt.cs.cs1635.jmd221.votingapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.*;
 import android.view.*;
 import java.lang.*;
@@ -11,11 +13,13 @@ import android.content.pm.*;
 
 
 import edu.pitt.cs.cs1635.jmd221.votingapp.Components.InputProcessor.SmsReceiver;
+import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.CandidateTable;
+import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.TallyTable;
 import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.VotingSoftware;
 import edu.pitt.cs.cs1635.jmd221.votingapp.Components.InputProcessor.SmsReceiver.Listener;
 
 
-/* Activity that launches when the user types in the right password in Main Activity */
+/* Activity that launches after the creation of candidates. This is where the voting takes place */
 public class PollingActivity extends AppCompatActivity implements Listener {
     private VotingSoftware votingSoftware;
     public SmsReceiver receiver;
@@ -27,19 +31,18 @@ public class PollingActivity extends AppCompatActivity implements Listener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_polling);
 
-        final TextView pollingStarted = (TextView) findViewById(R.id.pollingBeganText);
-        pollingStarted.setText("Polling Began");
         votingSoftware = new VotingSoftware(PollingActivity.this);
 
+        // Get passed in CandidateTable from AddCandidatesActivity
+        Intent intent = getIntent();
+        votingSoftware.initializeCandidateTable((CandidateTable) intent.getSerializableExtra("CandidateTable"));
+        displayTallies();
 
-        // Activate our SmsListener
+        // Activate our SmsListener and listen for incoming SMS messages
         receiver = new SmsReceiver();
         IntentFilter mIntentFilter = new IntentFilter();
         mIntentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
         registerReceiver(receiver, mIntentFilter);
-
-        // Gets the phone and vote message from the SmsReceiver in onTextReceived(), adds voter to VoterTable,
-        // and displays the current tallies
         receiver.setListener(new SmsReceiver.Listener() {
         @Override
             public void onTextReceived(String phone, String vote, boolean validMessage) {
@@ -48,12 +51,7 @@ public class PollingActivity extends AppCompatActivity implements Listener {
                 else
                     votingSoftware.sendMessage(phone, vote, false, false);
 
-                final TextView talliesTextView = (TextView) findViewById(R.id.tallies);
-                String currentTallies = "";
-                for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
-                    currentTallies = currentTallies + "Project #" + entry.getKey() + " - " + entry.getValue().toString() + " votes\n";
-                }
-                talliesTextView.setText(currentTallies);
+                displayTallies();
             }
         });
     }
@@ -72,18 +70,28 @@ public class PollingActivity extends AppCompatActivity implements Listener {
         isInForeground = false;
     }
 
-    // Stop listening for SMS messages
+    // Stop listening for SMS messages and display results
     public void onStopPolling(View view) {
         unregisterReceiver(receiver);
         ComponentName receiver = new ComponentName(this, SmsReceiver.class);
-
         PackageManager pm = this.getPackageManager();
-
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
-        final TextView pollingStopped = (TextView) findViewById(R.id.pollingBeganText);
-        pollingStopped.setText("Polling Stopped");
+        final TextView pollingStopped = (TextView) findViewById(R.id.pollingStartedText);
+        pollingStopped.setText("Results");
+        Button stopPollingButton = (Button)findViewById(R.id.stopPollingButton);
+        stopPollingButton.setEnabled(false);
+    }
+
+    // Displays the current tallies in the TallyTable in descending order
+    private void displayTallies() {
+        final TextView talliesTextView = (TextView) findViewById(R.id.tallies);
+        String currentTallies = "";
+        for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
+            currentTallies = currentTallies + "Candidate #" + entry.getKey() + " " + votingSoftware.getCandidateTable().get(Integer.toString(entry.getKey())) + " - " + entry.getValue().toString() + " votes\n";
+        }
+        talliesTextView.setText(currentTallies);
     }
 
     // Implements the onTextReceived() - this method is actually only called in the onCreate() method,
