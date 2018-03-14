@@ -78,12 +78,12 @@ public class AddCandidatesActivity extends AppCompatActivity {
         TextView displayCandidatesTextView = (TextView)findViewById(R.id.displayCandidatesTextView);
         String candidatesDisplayed = "";
         if (displayCandidatesTextView == null) {
-            candidatesDisplayed = "Candidate #" + candidateID + ": " + candidates.getCandidateName(candidateID) + "\n";
+            candidatesDisplayed = "Candidate #" + candidateID + ": \"" + candidates.getCandidateName(candidateID) + "\"\n";
         } else {
             if(duplicate)
                 candidatesDisplayed = displayCandidatesTextView.getText().toString();
             else
-                candidatesDisplayed = displayCandidatesTextView.getText().toString() + "Candidate #" + candidateID + ": " + candidates.getCandidateName(candidateID) + "\n";
+                candidatesDisplayed = displayCandidatesTextView.getText().toString() + "Candidate #" + candidateID + ": \"" + candidates.getCandidateName(candidateID) + "\"\n";
         }
         displayCandidatesTextView.setText(candidatesDisplayed);
 

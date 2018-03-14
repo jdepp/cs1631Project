@@ -37,7 +37,7 @@ public class TallyTable {
     }
 
     // Sorts the HashMap in descending order
-    private static Map<Integer, Integer> sortDescending(Map<Integer, Integer> unsortMap) {
+    private Map<Integer, Integer> sortDescending(Map<Integer, Integer> unsortMap) {
         List<Entry<Integer, Integer>> list = new LinkedList<Entry<Integer, Integer>>(unsortMap.entrySet());
         Collections.sort(list, new Comparator<Entry<Integer, Integer>>()
         {
