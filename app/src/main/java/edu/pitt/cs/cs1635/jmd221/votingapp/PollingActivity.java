@@ -38,6 +38,10 @@ public class PollingActivity extends AppCompatActivity implements Listener {
         votingSoftware.initializeCandidateTable((CandidateTable) intent.getSerializableExtra("CandidateTable"));
         displayTallies();
 
+        // Deactivate send email button which should only be pressed when polling stopped
+        Button sendEmailButton = (Button)findViewById(R.id.sendEmailButton);
+        sendEmailButton.setEnabled(false);
+
         // Activate our SmsListener and listen for incoming SMS messages
         receiver = new SmsReceiver();
         IntentFilter mIntentFilter = new IntentFilter();
@@ -72,6 +76,7 @@ public class PollingActivity extends AppCompatActivity implements Listener {
 
     // Stop listening for SMS messages and display results
     public void onStopPolling(View view) {
+        isInForeground = false;
         unregisterReceiver(receiver);
         ComponentName receiver = new ComponentName(this, SmsReceiver.class);
         PackageManager pm = this.getPackageManager();
@@ -82,8 +87,29 @@ public class PollingActivity extends AppCompatActivity implements Listener {
         pollingStopped.setText("Results");
         Button stopPollingButton = (Button)findViewById(R.id.stopPollingButton);
         stopPollingButton.setEnabled(false);
+        Button sendEmailButton = (Button)findViewById(R.id.sendEmailButton);
+        sendEmailButton.setEnabled(true);
 
         votingSoftware.destroyVoterTable();
+    }
+
+    // Sends the results of TallyTable in an email
+    public void onSendEmail(View view) {
+        String emailBody = "";
+        for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
+            emailBody = emailBody + "Candidate #" + entry.getKey() + " \"" + votingSoftware.getCandidateTable().get(Integer.toString(entry.getKey())) + "\" - " + entry.getValue().toString() + " votes\n";
+        }
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"schang@pitt.edu", "mackenzie@cs.pitt.edu"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "SCI Voting Results");
+        intent.putExtra(Intent.EXTRA_TEXT   , emailBody);
+        try {
+            startActivity(Intent.createChooser(intent, "Send results in email..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Displays the current tallies in the TallyTable in descending order
@@ -91,7 +117,7 @@ public class PollingActivity extends AppCompatActivity implements Listener {
         final TextView talliesTextView = (TextView) findViewById(R.id.tallies);
         String currentTallies = "";
         for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
-            currentTallies = currentTallies + "Candidate #" + entry.getKey() + " " + votingSoftware.getCandidateTable().get(Integer.toString(entry.getKey())) + " - " + entry.getValue().toString() + " votes\n";
+            currentTallies = currentTallies + "Candidate #" + entry.getKey() + " \"" + votingSoftware.getCandidateTable().get(Integer.toString(entry.getKey())) + "\" - " + entry.getValue().toString() + " votes\n";
         }
         talliesTextView.setText(currentTallies);
     }

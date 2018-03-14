@@ -74,17 +74,13 @@ public class AddCandidatesActivity extends AppCompatActivity {
             duplicate = true;
         candidates.addCandidate(candidateID, candidateName);
 
-
         TextView displayCandidatesTextView = (TextView)findViewById(R.id.displayCandidatesTextView);
         String candidatesDisplayed = "";
-        if (displayCandidatesTextView == null) {
-            candidatesDisplayed = "Candidate #" + candidateID + ": \"" + candidates.getCandidateName(candidateID) + "\"\n";
-        } else {
-            if(duplicate)
-                candidatesDisplayed = displayCandidatesTextView.getText().toString();
-            else
-                candidatesDisplayed = displayCandidatesTextView.getText().toString() + "Candidate #" + candidateID + ": \"" + candidates.getCandidateName(candidateID) + "\"\n";
-        }
+        if(duplicate)
+            candidatesDisplayed = displayCandidatesTextView.getText().toString();
+        else
+            candidatesDisplayed = displayCandidatesTextView.getText().toString() + "Candidate #" + candidateID + ": \"" + candidates.getCandidateName(candidateID) + "\"\n";
+
         displayCandidatesTextView.setText(candidatesDisplayed);
 
         candidateNameEditText.setText("");
