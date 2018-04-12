@@ -59,6 +59,7 @@ public class AddCandidatesActivity extends AppCompatActivity {
     // Transitions to PollingActivity and passes it the CandidateTable
     public void onStartPolling(View view) {
         Intent intent = new Intent(AddCandidatesActivity.this, PollingActivity.class);
+        intent.putExtra("CandidateTable", candidates);
         startActivity(intent);
     }
 
