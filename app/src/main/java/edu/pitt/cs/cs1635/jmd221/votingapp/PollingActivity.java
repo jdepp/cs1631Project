@@ -12,6 +12,8 @@ import android.content.*;
 import android.content.pm.*;
 
 
+import edu.pitt.cs.cs1635.jmd221.votingapp.Components.Database.Database;
+import edu.pitt.cs.cs1635.jmd221.votingapp.Components.Database.GetAllCandidatesListener;
 import edu.pitt.cs.cs1635.jmd221.votingapp.Components.InputProcessor.SmsReceiver;
 import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.CandidateTable;
 import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.TallyTable;
@@ -20,7 +22,7 @@ import edu.pitt.cs.cs1635.jmd221.votingapp.Components.InputProcessor.SmsReceiver
 
 
 /* Activity that launches after the creation of candidates. This is where the voting takes place */
-public class PollingActivity extends AppCompatActivity implements Listener {
+public class PollingActivity extends AppCompatActivity implements Listener, GetAllCandidatesListener {
     private VotingSoftware votingSoftware;
     public SmsReceiver receiver;
     public static boolean isInForeground;
@@ -88,28 +90,50 @@ public class PollingActivity extends AppCompatActivity implements Listener {
         Button stopPollingButton = (Button)findViewById(R.id.stopPollingButton);
         stopPollingButton.setEnabled(false);
         Button sendEmailButton = (Button)findViewById(R.id.sendEmailButton);
-        //sendEmailButton.setEnabled(true);
+        sendEmailButton.setEnabled(true);
+
+        // Gets all Candidates from database and then compares each of the current year to the candidate table and if matches the ID, update its votes and save back to database
+        Database db = new Database();
+        db.setGetYearsListener(new GetAllCandidatesListener() {
+            @Override
+            public void getCandidates(List<Candidate> candidates) {
+                for(Candidate currentCandidate : candidates) {
+                    for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
+                        if(Integer.toString(entry.getKey()).equals(currentCandidate.getId()) && currentCandidate.getYear().equals(Calendar.getInstance().get(Calendar.YEAR))) {
+                            int updatedNumOfVotes = entry.getValue();
+                            currentCandidate.setNumVotes(Integer.toString(updatedNumOfVotes));
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
 
         votingSoftware.destroyVoterTable();
     }
 
     // Sends the results of TallyTable in an email
     public void onSendEmail(View view) {
-        String emailBody = "";
-        for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
-            emailBody = emailBody + "Candidate #" + entry.getKey() + " \"" + votingSoftware.getCandidateTable().get(Integer.toString(entry.getKey())) + "\" - " + entry.getValue().toString() + " votes\n";
-        }
+//        String emailBody = "";
+//        for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
+//            emailBody = emailBody + "Candidate #" + entry.getKey() + " \"" + votingSoftware.getCandidateTable().get(Integer.toString(entry.getKey())) + "\" - " + entry.getValue().toString() + " votes\n";
+//        }
+//
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.setType("message/rfc822");
+//        intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"schang@pitt.edu", "mackenzie@cs.pitt.edu"});
+//        intent.putExtra(Intent.EXTRA_SUBJECT, "SCI Voting Results");
+//        intent.putExtra(Intent.EXTRA_TEXT   , emailBody);
+//        try {
+//            startActivity(Intent.createChooser(intent, "Send results in email..."));
+//        } catch (android.content.ActivityNotFoundException ex) {
+//            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+//        }
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"schang@pitt.edu", "mackenzie@cs.pitt.edu"});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "SCI Voting Results");
-        intent.putExtra(Intent.EXTRA_TEXT   , emailBody);
-        try {
-            startActivity(Intent.createChooser(intent, "Send results in email..."));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-        }
+        // Transitions to ShowTrendsActivity
+        Intent i = new Intent(getApplicationContext(), ShowTrendsActivity.class);
+        startActivity(i);
     }
 
     // Displays the current tallies in the TallyTable in descending order
@@ -126,6 +150,7 @@ public class PollingActivity extends AppCompatActivity implements Listener {
     // but Android Studio for some reason doesn't recognize that onTextReceived() is being implemented there,
     // so we created a dummy method here to shut it up
     public void onTextReceived(String s, String str, boolean validMessage) { }
+    public void getCandidates(List<Candidate> candidates) { }
 
 }
 

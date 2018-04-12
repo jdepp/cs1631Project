@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PollingActivity"/>
+        <activity android:name=".PollingActivity" />
 
         <receiver
             android:name=".Components.InputProcessor.SmsReceiver"
@@ -30,7 +30,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".AddCandidatesActivity"></activity>
+        <activity android:name=".AddCandidatesActivity" />
+        <activity android:name=".ShowTrendsActivity"></activity>
     </application>
 
 </manifest>
