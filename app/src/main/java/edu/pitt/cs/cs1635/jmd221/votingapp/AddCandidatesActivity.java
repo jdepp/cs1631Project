@@ -19,6 +19,7 @@ import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.CandidateTa
  * This is where user will enter a list of Candidates to be voted on */
 public class AddCandidatesActivity extends AppCompatActivity {
     private CandidateTable candidates;
+    private String candidateSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,6 @@ public class AddCandidatesActivity extends AppCompatActivity {
     // Transitions to PollingActivity and passes it the CandidateTable
     public void onStartPolling(View view) {
         Intent intent = new Intent(AddCandidatesActivity.this, PollingActivity.class);
-        intent.putExtra("CandidateTable", candidates);
         startActivity(intent);
     }
 
@@ -69,7 +69,7 @@ public class AddCandidatesActivity extends AppCompatActivity {
         EditText candidateSubjectEditText = (EditText)findViewById(R.id.enterCandidateSubject);
         String candidateName = candidateNameEditText.getText().toString();
         String candidateID = candidateIDEditText.getText().toString();
-        String candidateSubject = candidateSubjectEditText.getText().toString();
+        candidateSubject = candidateSubjectEditText.getText().toString();
 
         boolean duplicate;
         if(!candidates.isInCandidateTable(candidateID))

@@ -26,6 +26,7 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
     private VotingSoftware votingSoftware;
     public SmsReceiver receiver;
     public static boolean isInForeground;
+    private String candidateSubject;
 
     // This method is called when this Activity is created - renders the view and creates VotingSoftware class and activates SmsListener
     @Override
@@ -99,7 +100,7 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
             public void getCandidates(List<Candidate> candidates) {
                 for(Candidate currentCandidate : candidates) {
                     for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
-                        if(Integer.toString(entry.getKey()).equals(currentCandidate.getId()) && currentCandidate.getYear().equals(Calendar.getInstance().get(Calendar.YEAR))) {
+                        if(Integer.toString(entry.getKey()).equals(currentCandidate.getId())) {
                             int updatedNumOfVotes = entry.getValue();
                             //currentCandidate.setNumVotes(Integer.toString(updatedNumOfVotes));
                             Candidate updatedCandidate = new Candidate(currentCandidate.getId(), currentCandidate.getName(), currentCandidate.getSubject(), currentCandidate.getYear());
@@ -112,8 +113,7 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
             }
         });
 
-
-        votingSoftware.destroyVoterTable();
+        //votingSoftware.destroyVoterTable();
     }
 
     // Sends the results of TallyTable in an email
