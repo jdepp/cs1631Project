@@ -93,7 +93,7 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
         sendEmailButton.setEnabled(true);
 
         // Gets all Candidates from database and then compares each of the current year to the candidate table and if matches the ID, update its votes and save back to database
-        Database db = new Database();
+        final Database db = new Database();
         db.setGetYearsListener(new GetAllCandidatesListener() {
             @Override
             public void getCandidates(List<Candidate> candidates) {
@@ -101,7 +101,10 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
                     for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
                         if(Integer.toString(entry.getKey()).equals(currentCandidate.getId()) && currentCandidate.getYear().equals(Calendar.getInstance().get(Calendar.YEAR))) {
                             int updatedNumOfVotes = entry.getValue();
-                            currentCandidate.setNumVotes(Integer.toString(updatedNumOfVotes));
+                            //currentCandidate.setNumVotes(Integer.toString(updatedNumOfVotes));
+                            Candidate updatedCandidate = new Candidate(currentCandidate.getId(), currentCandidate.getName(), currentCandidate.getSubject(), currentCandidate.getYear());
+                            updatedCandidate.setNumVotes(Integer.toString(updatedNumOfVotes));
+                            db.createCandidate(updatedCandidate);
                             break;
                         }
                     }
