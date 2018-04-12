@@ -100,7 +100,7 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
             public void getCandidates(List<Candidate> candidates) {
                 for(Candidate currentCandidate : candidates) {
                     for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
-                        if(Integer.toString(entry.getKey()).equals(currentCandidate.getId())) {
+                        if(Integer.toString(entry.getKey()).equals(currentCandidate.getId()) && currentCandidate.getYear().equals(Calendar.getInstance().get(Calendar.YEAR))) {
                             int updatedNumOfVotes = entry.getValue();
                             //currentCandidate.setNumVotes(Integer.toString(updatedNumOfVotes));
                             Candidate updatedCandidate = new Candidate(currentCandidate.getId(), currentCandidate.getName(), currentCandidate.getSubject(), currentCandidate.getYear());
@@ -113,7 +113,6 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
             }
         });
 
-        //votingSoftware.destroyVoterTable();
     }
 
     // Sends the results of TallyTable in an email
@@ -134,7 +133,8 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
 //            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
 //        }
 
-        // Transitions to ShowTrendsActivity
+        // Transitions to ShowTrendsActivity and wipes Voter Table
+        votingSoftware.destroyVoterTable();
         Intent i = new Intent(getApplicationContext(), ShowTrendsActivity.class);
         startActivity(i);
     }

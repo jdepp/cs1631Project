@@ -6,12 +6,82 @@
     android:layout_height="match_parent"
     tools:context="edu.pitt.cs.cs1635.jmd221.votingapp.ShowTrendsActivity">
 
-    <LinearLayout
-        android:id="@+id/candidatesTest"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp">
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/headingText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:text="Trends"
+            android:gravity="center"/>
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/candidatesTest"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+
+        <!--</LinearLayout>-->
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/headingText">
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TableRow android:background="#EEE" android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:text="ID" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:text="Name" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:text="Subject" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:text="Year" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:text="# Votes" />
+                </TableRow>
+
+            </TableLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

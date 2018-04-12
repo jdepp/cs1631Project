@@ -23,8 +23,8 @@ public class Database {
         database = FirebaseDatabase.getInstance();
         DatabaseReference yearsReference = database.getReference("year");
 
-        /* Async loads in all the years (and hence the candidates for that year), and sends that data
-         * to whichever class/activity implements the GetYearsListener to be handled */
+        /* Async loads in all the years (and hence the candidates for that year), and sends a List of Candidates
+         * for all years to whichever class/activity implements the GetYearsListener to be handled */
         yearsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
