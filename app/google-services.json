@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "581514791402",
+    "firebase_url": "https://voting-app-2d699.firebaseio.com",
+    "project_id": "voting-app-2d699",
+    "storage_bucket": "voting-app-2d699.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581514791402:android:33c404aba1600e41",
+        "android_client_info": {
+          "package_name": "edu.pitt.cs.cs1635.jmd221.votingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581514791402-609k53dbsq3oocbb1ugb2nt0om1rpp1l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.pitt.cs.cs1635.jmd221.votingapp",
+            "certificate_hash": "99e16e7c07ded56f2168ec07e33ec968992f4ccf"
+          }
+        },
+        {
+          "client_id": "581514791402-apjv4lt0rb1ll0pm59u0gjrd0ij5954o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzQSJlx7RjaTXT0AWbxmjKCLvMWJvaIgA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581514791402-apjv4lt0rb1ll0pm59u0gjrd0ij5954o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

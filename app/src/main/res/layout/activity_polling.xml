@@ -55,7 +55,16 @@
                 android:text="Stop Polling"
                 android:onClick="onStopPolling"
                 android:gravity="center"
-                android:layout_weight="100"/>
+                android:layout_weight="50"/>
+
+            <Button
+                android:id="@+id/sendEmailButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Email"
+                android:onClick="onSendEmail"
+                android:gravity="center"
+                android:layout_weight="50"/>
 
         </LinearLayout>
 

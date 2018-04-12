@@ -43,11 +43,20 @@
                 android:layout_below="@+id/enterCandidateName">
 
                 <EditText
-                    android:id="@+id/enterCandidateID"
+                    android:id="@+id/enterCandidateSubject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:hint="Candidate ID"
+                    android:hint="Candidate Genre"
+                    android:inputType="text"/>
+
+                <EditText
+                    android:id="@+id/enterCandidateID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/enterCandidateSubject"
+                    android:hint="ID"
+                    android:maxLength="3"
                     android:inputType="number"/>
 
                 <Button

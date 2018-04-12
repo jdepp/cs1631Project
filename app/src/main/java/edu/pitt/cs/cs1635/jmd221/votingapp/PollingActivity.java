@@ -88,7 +88,7 @@ public class PollingActivity extends AppCompatActivity implements Listener {
         Button stopPollingButton = (Button)findViewById(R.id.stopPollingButton);
         stopPollingButton.setEnabled(false);
         Button sendEmailButton = (Button)findViewById(R.id.sendEmailButton);
-        sendEmailButton.setEnabled(true);
+        //sendEmailButton.setEnabled(true);
 
         votingSoftware.destroyVoterTable();
     }

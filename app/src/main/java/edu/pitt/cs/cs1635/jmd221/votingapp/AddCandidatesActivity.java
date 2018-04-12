@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.view.inputmethod.*;
+import java.util.*;
 
+import edu.pitt.cs.cs1635.jmd221.votingapp.Components.Database.Database;
 import edu.pitt.cs.cs1635.jmd221.votingapp.Components.VotingSoftware.CandidateTable;
 
 /* Activity that launches after user enters correct password in MainActivity.
@@ -64,8 +66,10 @@ public class AddCandidatesActivity extends AppCompatActivity {
     public void onAddCandidate(View view) {
         EditText candidateNameEditText = (EditText)findViewById(R.id.enterCandidateName);
         EditText candidateIDEditText = (EditText)findViewById(R.id.enterCandidateID);
+        EditText candidateSubjectEditText = (EditText)findViewById(R.id.enterCandidateSubject);
         String candidateName = candidateNameEditText.getText().toString();
         String candidateID = candidateIDEditText.getText().toString();
+        String candidateSubject = candidateSubjectEditText.getText().toString();
 
         boolean duplicate;
         if(!candidates.isInCandidateTable(candidateID))
@@ -78,9 +82,13 @@ public class AddCandidatesActivity extends AppCompatActivity {
         String candidatesDisplayed = "";
         if(duplicate)
             candidatesDisplayed = displayCandidatesTextView.getText().toString();
-        else
+        else {
             candidatesDisplayed = displayCandidatesTextView.getText().toString() + "Candidate #" + candidateID + ": \"" + candidates.getCandidateName(candidateID) + "\"\n";
-
+            Database db = new Database();
+            String currentYear = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+            Candidate newCandidate = new Candidate(candidateID, candidateName, candidateSubject, currentYear);
+            db.createCandidate(newCandidate);
+        }
         displayCandidatesTextView.setText(candidatesDisplayed);
 
         candidateNameEditText.setText("");
