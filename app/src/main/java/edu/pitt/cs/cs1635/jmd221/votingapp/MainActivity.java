@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText passwordInput = (EditText)findViewById(R.id.enterPasswordEditText);
-        final Button passwordButton = (Button)findViewById(R.id.enterPasswordButton);
+        EditText passwordInput = findViewById(R.id.enterPasswordEditText);
+        final Button passwordButton = findViewById(R.id.enterPasswordButton);
         passwordButton.setEnabled(false);
 
         // Listen for text input changes and make "Login" button disabled if password text field is blank
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Method called when "Start Polling" button pressed
     public void onGetCandidates(View view) {
-        EditText edit = (EditText)findViewById(R.id.enterPasswordEditText);
+        EditText edit = findViewById(R.id.enterPasswordEditText);
         String content = edit.getText().toString();
 
         // Start Polling Activity is the inputted text equals the password
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // Wrong password - display "Wrong Password" and don't start Polling Activity
         else {
-            TextView textView = (TextView)findViewById(R.id.wrongPasswordText);
+            TextView textView = findViewById(R.id.wrongPasswordText);
             textView.setText("Wrong password");
             textView.setTextColor(Color.RED);
             InputMethodManager imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);

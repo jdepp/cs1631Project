@@ -14,7 +14,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import edu.pitt.cs.cs1635.jmd221.votingapp.Components.Database.Database;
 import edu.pitt.cs.cs1635.jmd221.votingapp.Components.Database.GetAllCandidatesListener;
@@ -38,6 +41,7 @@ public class ShowTrendsActivity extends AppCompatActivity implements GetAllCandi
 //                    tv.setText(s);
 //                    LinearLayout ll = (LinearLayout)findViewById(R.id.candidatesTest);
 //                    ll.addView(tv);
+                    analyze(candidates);
 
                     TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -78,7 +82,6 @@ public class ShowTrendsActivity extends AppCompatActivity implements GetAllCandi
                     tableRow.addView(numVotesTextView);
 
                     table.addView(tableRow, 1);
-
                 }
             }
         });
@@ -86,4 +89,38 @@ public class ShowTrendsActivity extends AppCompatActivity implements GetAllCandi
     }
 
     public void getCandidates(List<Candidate> candidateList) { }
+    public void analyze(List<Candidate> candidates)
+    {
+        final TextView percentagesTextView = (TextView)findViewById(R.id.percentages);
+        String analysis = "";
+
+        Map<String, Integer> subjects = new HashMap<>();
+        for (Candidate currentCandidate : candidates) {
+            if (!subjects.containsKey(currentCandidate.getSubject()))
+            {
+                subjects.put(currentCandidate.getSubject(), Integer.valueOf(currentCandidate.getNumVotes()));
+
+            }
+            else
+            {
+                Integer newVal = subjects.get(currentCandidate.getSubject()) + Integer.valueOf(currentCandidate.getNumVotes());
+                subjects.replace(currentCandidate.getSubject(), newVal);
+
+            }
+        }
+
+        Integer total = 0;
+
+        Iterator it = subjects.entrySet().iterator();
+        while (it.hasNext()) {
+            Integer percentage;
+            Map.Entry pair = (Map.Entry)it.next();
+            total += (Integer)pair.getValue();
+            percentage = ((Integer)pair.getValue() / total) * 100;
+            subjects.replace((String)pair.getKey(), percentage);
+            it.remove(); // avoids a ConcurrentModificationException
+
+            percentagesTextView.setText(Integer.toString((Integer)pair.getValue()) + "% of voters voted for subject " + pair.getKey());
+        }
+    }
 }

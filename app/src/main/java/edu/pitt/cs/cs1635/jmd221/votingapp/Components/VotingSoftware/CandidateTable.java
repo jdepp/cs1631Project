@@ -14,9 +14,9 @@ public class CandidateTable implements Serializable{
     }
 
     // Adds tally to HashMap
-    public void addCandidate(String id, String candidateName) {
+    public void addCandidate(String id, String candidateType) {
         if(!hashMap.containsKey(id)) {
-            hashMap.put(id, candidateName);
+            hashMap.put(id, candidateType);
         }
     }
 
@@ -26,7 +26,7 @@ public class CandidateTable implements Serializable{
         else  return false;
     }
 
-    public String getCandidateName(String id) {
+    public String getCandidateType(String id) {
         return hashMap.get(id);
     }
 

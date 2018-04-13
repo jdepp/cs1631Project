@@ -41,9 +41,11 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
         votingSoftware.initializeCandidateTable((CandidateTable) intent.getSerializableExtra("CandidateTable"));
         displayTallies();
 
-        // Deactivate send email button which should only be pressed when polling stopped
+        // Deactivate send email and analyze buttons which should only be pressed when polling stopped
         Button sendEmailButton = (Button)findViewById(R.id.sendEmailButton);
         sendEmailButton.setEnabled(false);
+        Button analyzeButton = (Button)findViewById(R.id.analyzeButton);
+        analyzeButton.setEnabled(false);
 
         // Activate our SmsListener and listen for incoming SMS messages
         receiver = new SmsReceiver();
@@ -92,6 +94,8 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
         stopPollingButton.setEnabled(false);
         Button sendEmailButton = (Button)findViewById(R.id.sendEmailButton);
         sendEmailButton.setEnabled(true);
+        Button analyzeButton = (Button)findViewById(R.id.analyzeButton);
+        analyzeButton.setEnabled(true);
 
         // Gets all Candidates from database and then compares each of the current year to the candidate table and if matches the ID, update its votes and save back to database
         final Database db = new Database();
@@ -117,22 +121,24 @@ public class PollingActivity extends AppCompatActivity implements Listener, GetA
 
     // Sends the results of TallyTable in an email
     public void onSendEmail(View view) {
-//        String emailBody = "";
-//        for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
-//            emailBody = emailBody + "Candidate #" + entry.getKey() + " \"" + votingSoftware.getCandidateTable().get(Integer.toString(entry.getKey())) + "\" - " + entry.getValue().toString() + " votes\n";
-//        }
-//
-//        Intent intent = new Intent(Intent.ACTION_SEND);
-//        intent.setType("message/rfc822");
-//        intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"schang@pitt.edu", "mackenzie@cs.pitt.edu"});
-//        intent.putExtra(Intent.EXTRA_SUBJECT, "SCI Voting Results");
-//        intent.putExtra(Intent.EXTRA_TEXT   , emailBody);
-//        try {
-//            startActivity(Intent.createChooser(intent, "Send results in email..."));
-//        } catch (android.content.ActivityNotFoundException ex) {
-//            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-//        }
+          String emailBody = "";
+          for (Map.Entry<Integer, Integer> entry : votingSoftware.getTallyTable().entrySet()) {
+              emailBody = emailBody + "Candidate #" + entry.getKey() + " \"" + votingSoftware.getCandidateTable().get(Integer.toString(entry.getKey())) + "\" - " + entry.getValue().toString() + " votes\n";
+          }
 
+          Intent intent = new Intent(Intent.ACTION_SEND);
+          intent.setType("message/rfc822");
+          intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"schang@pitt.edu", "mackenzie@cs.pitt.edu"});
+          intent.putExtra(Intent.EXTRA_SUBJECT, "SCI Voting Results");
+          intent.putExtra(Intent.EXTRA_TEXT   , emailBody);
+          try {
+              startActivity(Intent.createChooser(intent, "Send results in email..."));
+          } catch (android.content.ActivityNotFoundException ex) {
+              Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+          }
+    }
+
+    public void onAnalyze(View view) {
         // Transitions to ShowTrendsActivity and wipes Voter Table
         votingSoftware.destroyVoterTable();
         Intent i = new Intent(getApplicationContext(), ShowTrendsActivity.class);

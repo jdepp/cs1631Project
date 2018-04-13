@@ -42,11 +42,11 @@
         </ScrollView>
 
         <LinearLayout
-            android:id="@+id/button"
+            android:id="@+id/mainButton"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_above="@+id/optionButtons">
 
             <Button
                 android:id="@+id/stopPollingButton"
@@ -54,6 +54,24 @@
                 android:layout_height="wrap_content"
                 android:text="Stop Polling"
                 android:onClick="onStopPolling"
+                android:gravity="center"
+                android:layout_weight="50"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/optionButtons"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/analyzeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Analyze"
+                android:onClick="onAnalyze"
                 android:gravity="center"
                 android:layout_weight="50"/>
 
@@ -65,6 +83,15 @@
                 android:onClick="onSendEmail"
                 android:gravity="center"
                 android:layout_weight="50"/>
+
+            <Button
+                android:id="@+id/sendEmailButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Email"
+                android:onClick="onSendEmail"
+                android:gravity="center"
+                android:layout_weight="100"/>
 
         </LinearLayout>
 
